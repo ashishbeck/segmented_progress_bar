@@ -1,6 +1,6 @@
 name: segmented_progress_bar
 description: A segmented progress bar that can display multiple progress bars with different levels of progressions
-version: 0.0.1
+version: 0.2.0
 homepage:
 repository: https://github.com/ashishbeck/segmented_progress_bar
 
@@ -17,6 +17,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^2.0.0
+  very_good_analysis: ^5.0.0
 
 flutter:

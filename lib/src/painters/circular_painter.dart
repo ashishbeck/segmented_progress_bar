@@ -23,20 +23,20 @@ class CircularProgressBarPainter extends CustomPainter {
   final BaseConfig config;
   List<num> get _segments => config.segments;
   List<double> get _values => config.values;
-  Color get _color => config.color;
+  Color get _color => config.color!;
   List<Color>? get _colors => config.colors;
   Color? get _backgroundColor => config.backgroundColor;
   Gradient? get _gradient => config.gradient;
   List<Gradient>? get _gradients => config.gradients;
   Gradient? get _backgroundGradient => config.backgroundGradient;
-  double get _backgroundOpacity => config.backgroundOpacity;
-  double get _thickness => config.thickness;
-  double get _spacing => config.spacing;
-  BorderRadius get _radius => config.radius;
+  double get _backgroundOpacity => config.backgroundOpacity!;
+  double get _thickness => config.thickness!;
+  double get _spacing => config.spacing!;
+  BorderRadius get _radius => config.radius!;
   // ignore: unused_element
   BorderRadius? get _insideRadius =>
       config.insideRadius; // TODO(ashishbeck): Implement this feature
-  double get _startAngle => config.startAngle;
+  double get _startAngle => config.startAngle!;
 
   late num _totalFractions;
   late double _height;
@@ -46,7 +46,8 @@ class CircularProgressBarPainter extends CustomPainter {
 
   final bool _showGrid = false;
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(CircularProgressBarPainter oldDelegate) =>
+      oldDelegate.config != config;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -59,12 +60,8 @@ class CircularProgressBarPainter extends CustomPainter {
       ..color = _color
       ..style = PaintingStyle.fill
       ..strokeWidth = 0.5;
-    final paintBg = Paint()
-      ..color = (_backgroundColor ?? _color).withOpacity(0.2)
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 0.5;
 
-    drawCircularProgress(canvas, paintBg, paint);
+    drawCircularProgress(canvas);
 
     // For debuging purposes
     if (_showGrid) {
@@ -121,7 +118,7 @@ class CircularProgressBarPainter extends CustomPainter {
   }
 
   /// Draws all the required circular segments for the progress bar
-  void drawCircularProgress(Canvas canvas, Paint paintBg, Paint paint) {
+  void drawCircularProgress(Canvas canvas) {
     final paths = List<Path>.generate(_segments.length, makeArc);
     _nextOffsetDeg = 0;
     final pathBgs = List<Path>.generate(
@@ -186,7 +183,7 @@ class CircularProgressBarPainter extends CustomPainter {
 
     canvas.saveLayer(
       Rect.fromCenter(center: _center, width: _width, height: _height),
-      paint,
+      Paint(),
     );
     for (var i = 0; i < paths.length; i++) {
       // Draw backgrounds

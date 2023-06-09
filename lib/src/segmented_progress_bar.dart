@@ -3,19 +3,20 @@ import 'package:segmented_progress_bar/segmented_progress_bar.dart';
 import 'package:segmented_progress_bar/src/models/config.dart';
 import 'package:segmented_progress_bar/src/painters/circular_painter.dart';
 import 'package:segmented_progress_bar/src/painters/linear_painter.dart';
+import 'package:segmented_progress_bar/src/utils/tweens.dart';
 
 /// {@template linear_segmented_progress_bar}
 /// A linear progress bar which is segmented into multiple pieces of varying
 /// length. Each of these segments can have different lengths and different
 /// progress values defined by [segments] and [values] respectively.
 /// {@endtemplate}
-class SegmentedProgressBar extends StatelessWidget {
+class SegmentedProgressBar extends ImplicitlyAnimatedWidget {
   /// {@macro linear_segmented_progress_bar}
   const SegmentedProgressBar({
-    Key? key,
-    this.type = SegmentedProgressBarType.linear,
     required this.segments,
     required this.values,
+    super.key,
+    this.type = SegmentedProgressBarType.linear,
     this.color,
     this.colors,
     this.backgroundColor,
@@ -29,6 +30,8 @@ class SegmentedProgressBar extends StatelessWidget {
     this.radius = const BorderRadius.all(Radius.circular(12)),
     this.insideRadius,
     this.startAngle = 270,
+    super.duration = const Duration(milliseconds: 1000),
+    super.curve = Curves.easeOutCubic,
   })  : assert(
           segments.length == values.length,
           'The number of segments should match the number of values',
@@ -40,8 +43,7 @@ class SegmentedProgressBar extends StatelessWidget {
         assert(
           (gradients ?? segments).length == segments.length,
           'The number of segments should match the number of gradients',
-        ),
-        super(key: key);
+        );
 
   /// {@macro segmented_bar_type}
   final SegmentedProgressBarType type;
@@ -146,40 +148,70 @@ class SegmentedProgressBar extends StatelessWidget {
   final double startAngle;
 
   @override
+  ImplicitlyAnimatedWidgetState<ImplicitlyAnimatedWidget> createState() =>
+      _SegmentedProgressBarState();
+}
+
+class _SegmentedProgressBarState
+    extends AnimatedWidgetBaseState<SegmentedProgressBar> {
+  List<Tween<double>?>? _values;
+  ColorTween? _color;
+  List<ColorTween?>? _colors;
+  ColorTween? _backgroundColor;
+  GradientTween? _gradient;
+  List<GradientTween?>? _gradients;
+  GradientTween? _backgroundGradient;
+  Tween<double>? _backgroundOpacity;
+  Tween<double>? _thickness;
+  Tween<Size>? _size;
+  Tween<double>? _spacing;
+  Tween<BorderRadius>? _radius;
+  Tween<BorderRadius>? _insideRadius;
+  Tween<double>? _startAngle;
+
+  @override
   Widget build(BuildContext context) {
     final config = BaseConfig(
-      segments: segments,
-      values: values,
-      color: color ?? Theme.of(context).primaryColor,
-      colors: colors,
-      backgroundColor: backgroundColor,
-      gradient: gradient,
-      gradients: gradients,
-      backgroundGradient: backgroundGradient,
-      backgroundOpacity: backgroundOpacity,
-      thickness: thickness,
-      size: size,
-      spacing: spacing,
-      radius: radius,
-      insideRadius: insideRadius,
-      startAngle: startAngle,
+      segments: widget.segments,
+      values: _values?.map((e) => e?.evaluate(animation) ?? 0).toList() ??
+          widget.values,
+      color: _color?.evaluate(animation) ?? Theme.of(context).primaryColor,
+      colors: _colors?.map((e) => e!.evaluate(animation)!).toList() ??
+          widget.colors,
+      backgroundColor: _backgroundColor?.evaluate(animation),
+      gradient: _gradient?.evaluate(animation),
+      gradients: _gradients?.map((e) => e!.evaluate(animation)).toList() ??
+          widget.gradients,
+      backgroundGradient: _backgroundGradient?.evaluate(animation),
+      backgroundOpacity:
+          _backgroundOpacity?.evaluate(animation) ?? widget.backgroundOpacity,
+      thickness: _thickness?.evaluate(animation) ?? widget.thickness,
+      size: _size?.evaluate(animation),
+      spacing: _spacing?.evaluate(animation) ?? widget.spacing,
+      radius: _radius?.evaluate(animation) ?? widget.radius,
+      insideRadius: _insideRadius?.evaluate(animation),
+      startAngle: _startAngle?.evaluate(animation) ?? widget.startAngle,
     );
     return LayoutBuilder(
       builder: (context, constraints) {
-        return CustomPaint(
-          size: size ?? _getSize(constraints),
-          painter: _getPainter(config),
+        return Column(
+          children: [
+            CustomPaint(
+              size: _size?.evaluate(animation) ?? _getSize(constraints),
+              painter: _getPainter(config),
+            ),
+          ],
         );
       },
     );
   }
 
   Size _getSize(BoxConstraints constraints) {
-    switch (type) {
+    switch (widget.type) {
       case SegmentedProgressBarType.linear:
         return Size(
           constraints.biggest.shortestSide,
-          thickness,
+          _thickness?.evaluate(animation) ?? widget.thickness,
         );
       case SegmentedProgressBarType.circular:
         return Size(
@@ -190,11 +222,117 @@ class SegmentedProgressBar extends StatelessWidget {
   }
 
   CustomPainter _getPainter(BaseConfig config) {
-    switch (type) {
+    switch (widget.type) {
       case SegmentedProgressBarType.linear:
         return LinearProgressBarPainter(config: config);
       case SegmentedProgressBarType.circular:
         return CircularProgressBarPainter(config: config);
     }
+  }
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _values ??= List.generate(
+      widget.values.length,
+      (index) => Tween(
+        begin: widget.values[index],
+        end: widget.values[index],
+      ),
+    );
+    if (widget.colors != null) {
+      _colors ??= List.generate(
+        widget.colors!.length,
+        (index) => ColorTween(
+          begin: widget.colors![index],
+          end: widget.colors![index],
+        ),
+      );
+    } else {
+      _colors = null;
+    }
+    if (widget.gradients != null) {
+      _gradients ??= List.generate(
+        widget.gradients!.length,
+        (index) => GradientTween(
+          begin: widget.gradients![index],
+          end: widget.gradients![index],
+        ),
+      );
+    } else {
+      _gradients = null;
+    }
+
+    for (var i = 0; i < widget.values.length; i++) {
+      visitor(
+        _values?[i],
+        widget.values[i],
+        (dynamic value) => Tween<double>(begin: value as double?),
+      ) as Tween<double>?;
+      visitor(
+        _colors?[i],
+        widget.colors?[i],
+        (dynamic value) => ColorTween(begin: value as Color?),
+      ) as ColorTween?;
+      visitor(
+        _gradients?[i],
+        widget.gradients?[i],
+        (dynamic value) => GradientTween(begin: value as Gradient?),
+      ) as GradientTween?;
+    }
+    _color = visitor(
+      _color,
+      widget.color,
+      (dynamic value) => ColorTween(begin: value as Color?),
+    ) as ColorTween?;
+    _backgroundColor = visitor(
+      _backgroundColor,
+      widget.backgroundColor,
+      (dynamic value) => ColorTween(begin: value as Color?),
+    ) as ColorTween?;
+    _gradient = visitor(
+      _gradient,
+      widget.gradient,
+      (dynamic value) => GradientTween(begin: value as Gradient?),
+    ) as GradientTween?;
+    _backgroundGradient = visitor(
+      _backgroundGradient,
+      widget.backgroundGradient,
+      (dynamic value) => GradientTween(begin: value as Gradient?),
+    ) as GradientTween?;
+    _backgroundOpacity = visitor(
+      _backgroundOpacity,
+      widget.backgroundOpacity,
+      (dynamic value) => Tween<double>(begin: value as double?),
+    ) as Tween<double>?;
+    _thickness = visitor(
+      _thickness,
+      widget.thickness,
+      (dynamic value) => Tween<double>(begin: value as double?),
+    ) as Tween<double>?;
+    _size = visitor(
+      _size,
+      widget.size,
+      (dynamic value) => Tween<Size>(begin: value as Size?),
+    ) as Tween<Size>?;
+    _spacing = visitor(
+      _spacing,
+      widget.spacing,
+      (dynamic value) => Tween<double>(begin: value as double?),
+    ) as Tween<double>?;
+    _radius = visitor(
+      _radius,
+      widget.radius,
+      (dynamic value) => Tween<BorderRadius>(begin: value as BorderRadius?),
+    ) as Tween<BorderRadius>?;
+    _insideRadius = visitor(
+      _insideRadius,
+      widget.insideRadius,
+      (dynamic value) => Tween<BorderRadius>(begin: value as BorderRadius?),
+    ) as Tween<BorderRadius>?;
+    _startAngle = visitor(
+      _startAngle,
+      widget.startAngle,
+      (dynamic value) => Tween<double>(begin: value as double?),
+    ) as Tween<double>?;
   }
 }

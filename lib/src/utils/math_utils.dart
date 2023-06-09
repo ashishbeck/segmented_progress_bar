@@ -34,7 +34,10 @@ class MathUtils {
   /// Returns the offset for a point towards the center of a circle from any
   /// given point in the circle
   static Offset unitsTowardsCenter(Offset point, Offset center, double units) {
-    final x1 = point.dx, x2 = center.dx, y1 = point.dy, y2 = center.dy;
+    final x1 = point.dx;
+    final x2 = center.dx;
+    final y1 = point.dy;
+    final y2 = center.dy;
     final x = x1 + units * (x2 - x1) / sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
     final y = y1 + units * (y2 - y1) / sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
     return Offset(x, y);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import 'package:segmented_progress_bar/segmented_progress_bar.dart';
-import 'package:segmented_progress_bar_example/animation_wrapper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.deepPurple,
+        useMaterial3: true,
       ),
       home: const MyHomePage(),
     );
@@ -40,60 +41,68 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: AnimationWrapper(builder: (context, animation) {
-              return ListView(
-                children: [
-                  SegmentedProgressBar(
-                    segments: const [1, 1, 1, 1, 1, 1],
-                    // segments: const [3, 3, 1, 1, 1, 3],
-                    // values: const [0, 0, 0, 0, 0, 0],
-                    // values: const [0.5, 0.5, 0.0, 0.9, 0.6, 0.3],
-                    values: const [1, 1, 1, 1, 1, 1]
-                        .map((e) => e * animation)
-                        .toList(),
-                    color: Colors.pink,
-                    startAngle: 270,
-                    // spacing: 12,
-                    spacing: 12 + 12 * animation,
-                    colors: const [
-                      Colors.red,
-                      Colors.cyan,
-                      Colors.green,
-                      Colors.blue,
-                      Colors.amber,
-                      Colors.purple,
-                    ],
-                    gradients: const [
-                      LinearGradient(
-                        colors: [Colors.black, Colors.orange],
-                        stops: [0.2, 0.7],
-                      ),
-                      LinearGradient(colors: [Colors.black, Colors.green]),
-                      LinearGradient(colors: [Colors.black, Colors.green]),
-                      LinearGradient(colors: [Colors.black, Colors.green]),
-                      LinearGradient(colors: [Colors.black, Colors.green]),
-                      LinearGradient(colors: [Colors.black, Colors.green]),
-                    ],
-                    radius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+            child: ListView(
+              children: [
+                SegmentedProgressBar(
+                  segments: const [1, 1, 1, 1, 1, 1],
+                  // segments: const [3, 3, 1, 1, 1, 3],
+                  // values: const [0, 0, 0, 0, 0, 0],
+                  values: const [0.5, 0.5, 0.0, 0.9, 0.6, 0.3],
+                  // values: const [1, 1, 1, 1, 1, 1]
+                  //     .map((e) => e * animation)
+                  //     .toList(),
+                  // color: Colors.green,
+                  startAngle: 270,
+                  spacing: 12,
+                  // spacing: 12 + 12 * animation,
+                  // backgroundColor: Colors.green,
+                  // colors: const [
+                  //   Colors.red,
+                  //   Colors.cyan,
+                  //   Colors.green,
+                  //   Colors.blue,
+                  //   Colors.amber,
+                  //   Colors.purple,
+                  // ],
+                  // gradient:
+                  //     const LinearGradient(colors: [Colors.pink, Colors.blue]),
+                  // backgroundGradient:
+                  //     const LinearGradient(colors: [Colors.pink, Colors.blue]),
+                  // backgroundOpacity: 0.1,
+                  // thickness: 12,
+                  // size: const Size(double.infinity, 12),
+                  gradients: const [
+                    LinearGradient(
+                      colors: [Colors.black, Colors.orange],
+                      stops: [0.2, 0.7],
                     ),
+                    LinearGradient(colors: [Colors.black, Colors.green]),
+                    LinearGradient(colors: [Colors.black, Colors.green]),
+                    LinearGradient(colors: [Colors.black, Colors.green]),
+                    LinearGradient(colors: [Colors.black, Colors.green]),
+                    LinearGradient(colors: [Colors.black, Colors.green]),
+                  ],
+                  radius: const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
                   ),
-                  SegmentedProgressBar(
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SegmentedProgressBar(
                     type: SegmentedProgressBarType.circular,
                     segments: const [2, 2, 1, 1, 1, 1],
                     // values: const [1, 0.0, 0.07, 0.96, 0.01, 0.04],
-                    // values: const [0.03, 0.5, 0.2, 0.9, 0.6, 0.3],
+                    values: const [0.03, 0.5, 0.2, 0.9, 0.6, 0.3],
                     // values: const [0, 0, 0, 0, 0, 0],
-                    values: const [1, 1, 1, 1, 1, 1]
-                        .map((e) => e * animation)
-                        .toList(),
+                    // values: const [1, 1, 1, 1, 1, 1]
+                    //     .map((e) => e * animation)
+                    //     .toList(),
                     color: Colors.pink,
-                    startAngle: 270,
-                    // spacing: 12,
-                    spacing: 12 + 12 * animation,
+                    spacing: 12,
                     colors: const [
                       Colors.red,
                       Colors.cyan,
@@ -103,9 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       Colors.purple,
                     ],
                   ),
-                ],
-              );
-            }),
+                ),
+              ],
+            ),
           ),
         ),
       ),

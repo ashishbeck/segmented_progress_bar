@@ -28,8 +28,9 @@ class _AnimationWrapperState extends State<AnimationWrapper>
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 5));
     animation = CurvedAnimation(parent: controller, curve: Curves.linear);
-    controller.repeat(reverse: true);
-    controller.addListener(listener);
+    controller
+      ..repeat(reverse: true)
+      ..addListener(listener);
   }
 
   @override
@@ -41,8 +42,8 @@ class _AnimationWrapperState extends State<AnimationWrapper>
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-        listenable: animation,
+    return AnimatedBuilder(
+        animation: animation,
         builder: (context, _) {
           return widget.builder(context, animation.value);
         });

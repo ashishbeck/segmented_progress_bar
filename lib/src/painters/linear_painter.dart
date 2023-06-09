@@ -20,16 +20,16 @@ class LinearProgressBarPainter extends CustomPainter {
   final BaseConfig config;
   List<num> get _segments => config.segments;
   List<double> get _values => config.values;
-  Color get _color => config.color;
+  Color get _color => config.color!;
   List<Color>? get _colors => config.colors;
   Color? get _backgroundColor => config.backgroundColor;
   Gradient? get _gradient => config.gradient;
   List<Gradient>? get _gradients => config.gradients;
   Gradient? get _backgroundGradient => config.backgroundGradient;
-  double get _backgroundOpacity => config.backgroundOpacity;
-  double get _thickness => config.thickness;
-  double get _spacing => config.spacing;
-  BorderRadius get _radius => config.radius;
+  double get _backgroundOpacity => config.backgroundOpacity!;
+  double get _thickness => config.thickness!;
+  double get _spacing => config.spacing!;
+  BorderRadius get _radius => config.radius!;
   BorderRadius? get _insideRadius => config.insideRadius;
 
   late num _totalFractions;
@@ -40,7 +40,8 @@ class LinearProgressBarPainter extends CustomPainter {
   final bool _showGrid = false;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(LinearProgressBarPainter oldDelegate) =>
+      oldDelegate.config != config;
 
   @override
   void paint(Canvas canvas, Size size) {

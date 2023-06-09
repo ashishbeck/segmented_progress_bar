@@ -1,3 +1,10 @@
+## 0.2.0
+
+- Convert the widget from stateless to implicitly animated widget type
+- Added animations for all the properties
+- Added a tween type for lerping gradients
+- Updated very_good_analysis to the latest version 5.0.0
+
 ## 0.0.1
 
 - First release with linear and circular segmented progress bars

@@ -1,39 +1,30 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# ⋯ Segmented Progress Bar
+Create highly customizable progress bars that show progression across multiple stages of a task. It can be also used to show progression of multiple tasks simultaneously.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Features and Customizations
+- Offers two variants of the segmented progress bar with types- Linear and Circular
+- Modify the look and feel of the progress bars by changing their thickness, spacing, border radius and colors
+- The colors can be a single or custom color for each segment along with an optional background color
+- Prefer to use a gradient instead? This has got you covered! Specify common or individual gradients for all the segments as you wish just like with color customizations.
+- All the properties are implicitly animated so it can smoothly transition between them. Tailor the feel of the animation by specifying the duration and curve.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Use the widget like you would normally use for the vanilla progress indicators.
 
 ```dart
-const like = 'sample';
+SegmentedProgressBar(
+    segments: [1, 2, 1],
+    progress: [0.6, 0, 0],
+    colors: [
+        Colors.indigo,
+        Colors.amber,
+        Colors.green,
+    ],
+);
 ```
 
-## Additional information
+## Todo
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- [ ] Add vertical linear progress bar
+- [ ] Make the number of segments animatable

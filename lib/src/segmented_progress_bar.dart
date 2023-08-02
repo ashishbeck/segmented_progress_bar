@@ -210,7 +210,7 @@ class _SegmentedProgressBarState
     switch (widget.type) {
       case SegmentedProgressBarType.linear:
         return Size(
-          constraints.biggest.shortestSide,
+          constraints.biggest.longestSide,
           _thickness?.evaluate(animation) ?? widget.thickness,
         );
       case SegmentedProgressBarType.circular:

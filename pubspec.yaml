@@ -1,6 +1,6 @@
 name: segmented_progress_bar
 description: A segmented progress bar that can display multiple progress bars with different levels of progressions
-version: 0.2.0
+version: 0.2.1
 homepage:
 repository: https://github.com/ashishbeck/segmented_progress_bar
 

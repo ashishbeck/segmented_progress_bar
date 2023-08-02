@@ -69,7 +69,7 @@ class LinearProgressBarPainter extends CustomPainter {
   /// with a [value] color
   /// {@endtemplate}
   Paint paintBar(Color value, {bool isBg = false}) => Paint()
-    ..color = value.withOpacity(isBg ? _backgroundOpacity : 1)
+    ..color = isBg ? value.withOpacity(_backgroundOpacity) : value
     ..style = PaintingStyle.fill;
 
   /// {@template paint_gradient_bar}
@@ -77,8 +77,9 @@ class LinearProgressBarPainter extends CustomPainter {
   /// with a [value] gradient
   /// {@endtemplate}
   Paint paintGradientBar(Gradient value, Rect bounds, {bool isBg = false}) {
-    final grad =
-        PaintUtils.getGradientWithOpacity(value, isBg ? _backgroundOpacity : 1);
+    final grad = isBg
+        ? PaintUtils.getGradientWithOpacity(value, _backgroundOpacity)
+        : value;
     return Paint()
       ..shader = grad.createShader(bounds)
       ..style = PaintingStyle.fill;

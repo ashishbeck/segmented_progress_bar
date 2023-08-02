@@ -1,3 +1,8 @@
+## 0.2.1
+
+- Fixed bug that prevented using colors with opacity
+- Added linear bar samples to example and readme
+
 ## 0.2.0
 
 - Convert the widget from stateless to implicitly animated widget type

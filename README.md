@@ -1,39 +1,119 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# ⋯ Segmented Progress Bar
+Create highly customizable progress bars that show progression across multiple stages of a task. It can be also used to show progression of multiple tasks simultaneously.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+![delivery.gif](doc/delivery.gif)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+## 🚀 Features and Customizations
+- Offers two variants of the segmented progress bar with types- Linear and Circular
+- Modify the look and feel of the progress bars by changing their thickness, spacing, border radius and colors
+- The colors can be a single or custom color for each segment along with an optional background color
+- Prefer to use a gradient instead? This has got you covered! Specify common or individual gradients for all the segments as you wish just like with color customizations.
+- All the properties are implicitly animated so it can smoothly transition between them. Tailor the feel of the animation by specifying the duration and curve. ~~Sky~~ Creativity is the limit ![dynamic.gif](doc/dynamic.gif)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## 🧭 Usage
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Use the widget like you would normally use for the vanilla progress indicators with a slight modification.
 
 ```dart
-const like = 'sample';
+SegmentedProgressBar(
+    segments: [1, 2, 1],
+    progress: [0.6, 0, 0],
+    colors: [
+        Colors.indigo,
+        Colors.amber,
+        Colors.green,
+    ],
+)
 ```
 
-## Additional information
+### Example 1
+![png](doc/1.png)
+```dart
+SegmentedProgressBar(
+    segments: const [1, 2, 2, 3],
+    values: const [0.3, 0.6, 0.2, 0.5],
+    color: Colors.redAccent,
+    radius: BorderRadius.zero,
+)
+```
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+### Example 2
+![png](doc/2.png)
+```dart
+SegmentedProgressBar(
+    segments: const [1, 2, 1, 3],
+    values: const [0.8, 0.2, 0.5, 0.1],
+    color: Colors.indigo,
+)
+```
+### Example 3
+![png](doc/3.png)
+```dart
+SegmentedProgressBar(
+    segments: const [1, 2, 4, 1, 3],
+    values: const [0.3, 0.2, 0.6, 0.7, 0.5],
+    color: Colors.black,
+    spacing: 0,
+    insideRadius: BorderRadius.zero,
+)
+```
+### Example 4
+![png](doc/4.png)
+```dart
+SegmentedProgressBar(
+    segments: const [1, 3, 2],
+    values: const [0.3, 0.6, 0.4],
+    color: Colors.blue,
+    thickness: 32,
+    spacing: 16,
+    radius: const BorderRadius.horizontal(right: Radius.circular(20)),
+)
+```
+### Example 5
+![png](doc/5.png)
+```dart
+SegmentedProgressBar(
+    segments: const [2, 2, 3],
+    values: const [0.7, 0.5, 0.4],
+    color: Colors.green,
+    thickness: 16,
+    spacing: 12,
+    radius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+    ),
+)
+```
+### Example 6
+![png](doc/6.png)
+```dart
+SegmentedProgressBar(
+    segments: const [1, 2, 1, 3],
+    values: const [0.8, 0.2, 0.5, 0.1],
+    color: Colors.purple,
+    thickness: 4,
+    spacing: 24,
+)
+```
+### Example 7
+![png](doc/7.png)
+```dart
+SegmentedProgressBar(
+    segments: const [1, 2, 1, 3],
+    values: const [0.8, 0.2, 0.5, 0.1],
+    color: Colors.teal,
+    thickness: 4,
+    spacing: 0,
+    radius: BorderRadius.zero,
+)
+```
+
+### __*Circular Progress Bar Examples coming soon*__
+
+## 🗒️ Todo
+
+- [ ] Add vertical linear progress bar
+- [ ] Make the number of segments animatable
+- [ ] Auto center active segment
+- [ ] Add a widget to the progress head
+- [ ] Include more variants (possibly a squiglly line?)

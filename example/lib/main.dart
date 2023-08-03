@@ -185,7 +185,8 @@ class _MyHomePageState extends State<MyHomePage> {
               SegmentedProgressBar(
                 segments: const [1, 3, 2],
                 values: const [0.3, 0.6, 0.4],
-                color: Colors.blue,
+                gradient:
+                    const LinearGradient(colors: [Colors.blue, Colors.pink]),
                 thickness: 32,
                 spacing: 16,
                 radius:
@@ -195,7 +196,11 @@ class _MyHomePageState extends State<MyHomePage> {
               SegmentedProgressBar(
                 segments: const [2, 2, 3],
                 values: const [0.7, 0.5, 0.4],
-                color: Colors.green,
+                gradients: const [
+                  LinearGradient(colors: [Colors.green, Colors.black]),
+                  LinearGradient(colors: [Colors.orange, Colors.yellow]),
+                  LinearGradient(colors: [Colors.red, Colors.blue]),
+                ],
                 thickness: 16,
                 spacing: 12,
                 radius: const BorderRadius.only(
@@ -208,6 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 segments: const [1, 2, 1, 3],
                 values: const [0.8, 0.2, 0.5, 0.1],
                 color: Colors.purple,
+                backgroundColor: Colors.teal,
                 thickness: 4,
                 spacing: 24,
               ),
@@ -215,7 +221,12 @@ class _MyHomePageState extends State<MyHomePage> {
               SegmentedProgressBar(
                 segments: const [1, 2, 1, 3],
                 values: const [0.8, 0.2, 0.5, 0.1],
-                color: Colors.teal,
+                colors: const [
+                  Colors.teal,
+                  Colors.deepPurple,
+                  Colors.amber,
+                  Colors.pink,
+                ],
                 thickness: 4,
                 spacing: 0,
                 radius: BorderRadius.zero,
